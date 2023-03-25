@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProgSite</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="blobx"></div>
+    <div id="logo">
+        <div id="blur"></div>
+        <p>ProgSite</p>
+   </div>
+
+   <div id="content">
+    <div class="windows">
+        <div class="window">
+            <h1>Git</h1>
+            hsrgt
+        </div>
+        <div class="window">
+            <h1>Java</h1>
+        </div>
+        <div class="window">
+            <h1>CSS</h1>
+        </div>
+        <div class="window">
+            <h1>Html</h1>
+        </div>
+        <div class="window">
+            <h1>DOM</h1>
+        </div>
+        <div class="window">
+            <h1>Loops</h1>
+        </div>
+        <div class="window">
+            <h1>Git</h1>
+            hsrgt
+        </div>
+        <div class="window">
+            <h1>Java</h1>
+        </div>
+        <div class="window">
+            <h1>CSS</h1>
+        </div>
+        <div class="window">
+            <h1>Html</h1>
+        </div>
+        <div class="window">
+            <h1>DOM</h1>
+        </div>
+        <div class="window">
+            <h1>Loops</h1>
+        </div>
+    </div>
+    <div id="info"></div>
+    </div>
+
+
+
+<script>
+
+const blob = document.getElementById('blob')
+
+document.body.onpointermove = event => {
+    const { clientX, clientY } = event;
+    blob.animate({
+        left:`${clientX}px`,
+        top: `${clientY}px`
+    },{duration:2000, fill:'forwards'}) 
+}
+
+</script>
+</body>
+
+</html>
