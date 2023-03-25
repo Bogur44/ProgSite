@@ -12,68 +12,180 @@
 </head>
 
 <body>
-    <div id="blobx"></div>
-    <div id="logo">
-        <div id="blur"></div>
-        <p>ProgSite</p>
-   </div>
+    <div id="header">
+        <div id="logo">
+            <div id="blur"></div>
+            <p>ProgSite</p>
+        </div>
+        <div class="buttons">
+            <div class="adjustButton">
+                <img src="./images/pen.png">
+            </div>
+            <div class="removeButton">
+                <img src="./images/trash.png">        
+            </div>
+            <div class="addButton">
+                <img src="./images/plus.png">
+            </div>
+        </div>
+    </div>
 
    <div id="content">
-    <div class="windows">
-        <div class="window">
-            <h1>Git</h1>
-            hsrgt
+        <div class="closed-popup">
+            <div class="popup-header">
+                <div class="left">
+                    <h1>New File</h1>
+                    <img src="./images/files.png">
+                </div>
+                <button onclick = "closeEditor()">
+                    <img src="./images/close.png">
+                </button>
+            </div>
+            <div class="title">
+                <h1>Title =></h1>
+                <input id="titleInput" type="text">
+            </div>
+            <div class='popup-content'>
+                <h1>Content {</h1>
+                <textarea 
+                    class="contentInput" 
+                    name="name" 
+                    rows="15" 
+                    cols="1000" 
+                    placeholder="Write here...">
+                </textarea>
+                <h1>}</h1>
+            </div>
+            <div class="popupButtons">
+                <button class="createButton" onclick="createFile()">Create</button>
+            </div>
         </div>
-        <div class="window">
-            <h1>Java</h1>
-        </div>
-        <div class="window">
-            <h1>CSS</h1>
-        </div>
-        <div class="window">
-            <h1>Html</h1>
-        </div>
-        <div class="window">
-            <h1>DOM</h1>
-        </div>
-        <div class="window">
-            <h1>Loops</h1>
-        </div>
-        <div class="window">
-            <h1>Git</h1>
-            hsrgt
-        </div>
-        <div class="window">
-            <h1>Java</h1>
-        </div>
-        <div class="window">
-            <h1>CSS</h1>
-        </div>
-        <div class="window">
-            <h1>Html</h1>
-        </div>
-        <div class="window">
-            <h1>DOM</h1>
-        </div>
-        <div class="window">
-            <h1>Loops</h1>
-        </div>
-    </div>
-    <div id="info"></div>
-    </div>
+        <div class="windows">
+            <div class="window">
+                <h1>Git</h1>
+            </div>
+            <div class="window">
+                <h1>Java</h1>
+                <p>const blob = document.getElementById('blob')
 
-
+                    document.body.onpointermove = event => {
+                        const { clientX, clientY } = event;
+                        blob.animate({
+                            left:`${clientX}px`,
+                            top: `${clientY}px`
+                        },{duration:2000, fill:'forwards'}) 
+                    }
+                </p>
+        </div>
+        
+    </div>
 
 <script>
+    //variables
+let editorOpen = false;
 
-const blob = document.getElementById('blob')
+var titleInput =''
+var contentInput = ''
+let picked = false
+    //constants
 
-document.body.onpointermove = event => {
-    const { clientX, clientY } = event;
-    blob.animate({
-        left:`${clientX}px`,
-        top: `${clientY}px`
-    },{duration:2000, fill:'forwards'}) 
+const content = document.querySelector('#content')
+const windows = document.querySelector('.windows')
+const body = document.querySelector('body')
+const popup = document.querySelector('.closed-popup')
+
+
+const addButton = document.querySelector('.addButton')
+addButton.addEventListener('click', () => {
+    openEditor()
+});
+
+const removeButton = document.querySelector('.removeButton')
+removeButton.addEventListener('click', () => {
+    removePickFile()
+});
+
+const selectedToRemove = document.querySelector('.removing-window')
+    selectedToRemove.addEventListener('click', () => {
+        pickWindow()
+    })
+
+function pickWindow(){
+    if(picked === false){
+            selectedToRemove.classList.add('.windowChosenToRemove')
+            selectedToRemove.classList.remove('removing.window')
+        }
+}
+
+    //opens popup editor
+function openEditor(){
+    removeText()
+    popup.classList.add('open-popup')
+    editorOpen = true;
+}
+
+    //creates totally new file window and puts in info which user inputed
+    // after creating it closes the popup 
+function createFile(){
+    const window = document.createElement('div')
+    window.classList.add('window')
+    const h1 = document.createElement('h1')
+    var titleInput = document.querySelector('#titleInput').value;
+    h1.classList.add('h1')
+    h1.textContent = titleInput
+    const p = document.createElement('p')
+    var contentInput = document.querySelector('.contentInput').value;
+    p.classList.add('p')
+    p.textContent = contentInput
+
+    popup.classList.remove('open-popup')
+    windows.appendChild(window)
+    window.appendChild(h1)
+    window.appendChild(p)
+    console.log(titleInput)
+    removeText()
+}
+    //deletes inputed info in popup
+function removeText(){
+    document.querySelector('#titleInput').value= ''
+    document.querySelector('.contentInput').value = ''
+}
+    //closes popup editor and deletes all info inputed in
+function closeEditor(){
+    removeText()
+    popup.classList.remove('open-popup')
+    let editorOpen = false
+}
+    //whole process of removing
+function removePickFile(){
+    picking()
+    const closeDeleting = document.createElement('button')
+    closeDeleting.classList.add('closeDeleting')
+    closeDeleting.textContent = 'X'
+    closeDeleting.addEventListener('click', () => {
+        closePicking()
+        body.removeChild(closeDeleting)
+    })
+   
+    body.appendChild(closeDeleting)
+}
+
+    //after you click on trash button
+    //changes classes of windows
+function picking(){
+    const windowFiles = windows.querySelectorAll('.window');
+
+    windowFiles.forEach((windowFile) => {
+        windowFile.classList.add('removing-window')
+        let picked = false
+    })
+}
+function closePicking(){
+    const windowFiles = windows.querySelectorAll('.window');
+
+    windowFiles.forEach((windowFile) => {
+        windowFile.classList.remove('removing-window')
+    })
 }
 
 </script>

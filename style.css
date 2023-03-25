@@ -3,6 +3,7 @@ body{
     height: 100vh;
     margin: 0;
     padding: 0;
+    position: relative;
 }
 
 #logo{
@@ -11,9 +12,9 @@ body{
     font-size: 40px;
     text-align: center;
     position: relative;
+    font-family: Gloria Hallelujah;
 }
 p{
-    font-family: Gloria Hallelujah;
     padding: 20px;
     margin: 0;
     position: relative;
@@ -65,6 +66,29 @@ p{
     filter: blur(50px);
 }
 
+#header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#header .buttons img{
+    height: 50px;
+    aspect-ratio: 1;
+    padding: 5px;
+    border-radius: 10px;
+    transition: transform .5s ease;
+}
+#header .buttons{
+    display: flex;
+    gap: 25px;
+    margin-right: 25px;
+}
+
+#header .buttons :hover{
+    transform: scale(1.1);
+}
+
 #content{
     width: 65%;
     height: 500px;
@@ -73,12 +97,12 @@ p{
     gap: 25px;
 
     display: flex;
-    flex-wrap: wrap;
 }
 .windows{
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+    position: relative;
 }
 .window{
     height: 250px;
@@ -87,7 +111,8 @@ p{
     border: 2px solid transparent;
     border-radius: 20px;
     text-align: center;
-    box-shadow: 2px 2px 5px black
+    box-shadow: 2px 2px 5px black;
+    overflow-y: hidden;
 }
 .window h1{
     padding: 0;
@@ -98,6 +123,15 @@ p{
     transition-duration: 1s;
     opacity: 50%;
 }
+.window p{
+    text-align: start;
+    margin: 0;
+    padding: 5px;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    z-index: 1;
+}
+
 .window:hover{
     animation: hovering 2s infinite cubic-bezier(0.5, 2, 1, 1.5 );
     box-shadow: 2px 2px 4px black;
@@ -130,4 +164,207 @@ p{
     margin-top: -50px;
     padding-top: 0;
     border-radius: 20px;
+}
+
+.closed-popup{
+    background-color: #fff;
+    width: 600px;
+    height: 700px;
+    border: 2px solid black;
+    border-radius: 50px;
+
+    position: absolute;
+    left: 50%;
+    margin-top: -110px;
+    translate: -50% 0%;
+    z-index: 2;
+    transform: scale(0);
+}
+.open-popup{
+        background-color: #fff;
+        width: 600px;
+        height: 700px;
+        border: 2px solid black;
+        border-radius: 50px;
+        font-family: 'Courier New', Courier, monospace;
+
+    
+        position: absolute;
+        left: 50%;
+        margin-top: -110px;
+        translate: -50% 0%;
+        z-index: 3;
+        transition: transform 0.5s ease;
+        transform: scale(1);
+}
+
+.open-popup .popup-header{
+    display: flex;
+    font-family: 'Courier New', Courier, monospace;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 20px 20px;
+}
+
+.open-popup .popup-header h1{
+    font-size: 40px;
+    padding: 0;
+    margin: 0;
+}
+.open-popup .popup-header img{
+    height: 40px;
+    width: 40px;
+    aspect-ratio: 1;
+    margin-top: -7px;
+}
+.open-popup .popup-header .left{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.open-popup .popup-header button{
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    border: none;
+    background: none;
+}
+.open-popup .popup-header button img{
+    height: 40px;
+    width: 40px;
+    translate: 0 4px;
+}
+.open-popup .popup-header button img:hover{
+    transform: scale(1.1);
+}
+
+.open-popup .title{
+    display: flex;
+    padding: 10px 20px;
+    gap: 50px;
+    align-items: center;
+}
+.open-popup .title h1{
+    font-size: 30px;
+
+}
+.open-popup .title input{
+    height: 35px;
+    width: 300px;
+    border:2px solid black;
+    border-radius: 5px;
+    font-size: 25px;
+}
+
+.open-popup .popup-content h1{
+    font-size: 30px;
+    padding: 0 20px;
+}
+
+.open-popup .popup-content textarea{
+    border: none;
+    width: 550px;
+    height: 300px;
+    font-size: 16px;
+    transition-duration: 0s;
+    text-align: left;
+    margin: 0 22px;
+}
+
+.open-popup .popupButtons{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+.open-popup .popupButtons .createButton{
+    font-size: 24px;
+    font-weight: bold;
+    background-color: #fff;
+    height: 45px;
+    margin: 0px 25px;
+
+    border: none;
+
+    transition: transform .3s ease;
+}
+.open-popup .popupButtons .createButton:hover{
+    transform: scale(1.1);
+}
+
+
+
+.removing-window{
+    height: 250px;
+    width: 180px;
+   
+    border: 2px dashed red;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 2px 2px 5px black;
+    overflow-y: hidden;
+}
+.removing-window h1{
+    padding: 0;
+    margin: 0;
+    border-bottom: 2px solid black;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    transition-duration: 1s;
+    opacity: 50%;
+}
+.removing-window p{
+    text-align: start;
+    margin: 0;
+    padding: 5px;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    z-index: 1;
+}
+
+.removing-window:hover{
+    animation: hovering 2s infinite cubic-bezier(0.5, 2, 1, 1.5 );
+    box-shadow: 2px 2px 4px black;
+    border: 2px solid red;
+}
+.removing-window:hover > h1{
+    border-bottom: 3px solid black;
+    background: linear-gradient(to right, rgb(255, 0, 0), rgb(177, 1, 1));
+    opacity: 100%;
+}
+.closeDeleting{
+    height: 50px;
+    width: 50px;
+    padding: 10px;
+    font-size: 30px;
+    border-radius: 50px;
+    
+    
+    background-position: center;
+    border: 1px solid grey;
+    position: absolute;
+    translate:50vw -80vh ;
+    z-index: 3;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+.closeDeleting:hover{
+    transform: scale(1.1);
+}
+
+.windowChosenToRemove{
+    border: 2px solid red;
+    box-shadow: 2px 2px 4px rgb(0, 0, 0);
+    opacity: 100%;
+    height: 250px;
+    width: 180px;
+   
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 2px 2px 5px black;
+    overflow-y: hidden;
 }
