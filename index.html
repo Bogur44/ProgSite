@@ -12,12 +12,35 @@
 </head>
 
 <body>
+    <div class="closed-create-profile">
+        <div class="close-profile-header">
+            <h1 class="close-profile-h1">Create Profile<h1>
+            <button onclick="closeProfile()" class="close-create-profile"></button>
+        </div>
+        <div class="name">
+            <h2>Name</h2>
+            <input type="text" placeholder="Create name">
+        </div>
+        <div class="password">
+            <h2>Password</h2>
+            <input type="text" placeholder="Create password">
+        </div>
+        <div class="buttons">
+            <button class="signInButton">Sign up</button>
+            <button class="logInButton">Log in</button>
+            <button class="createProfileButton">Create Profile</button>
+        </div>
+    </div>
+
     <div id="header">
         <div id="logo">
             <div id="blur"></div>
             <p>ProgSite</p>
         </div>
         <div class="buttons">
+            <div class="profileButton">
+                <img src="./images/user.png">
+            </div>
             <div class="adjustButton">
                 <img src="./images/pen.png">
             </div>
@@ -31,11 +54,14 @@
     </div>
 
    <div id="content">
+        <div class="content-text">
+            <h1>Your Documents:</h1>
+        </div>
         <div class="closed-popup">
             <div class="popup-header">
                 <div class="left">
                     <h1>New File</h1>
-                    <img src="./images/files.png">
+                    <img class="fileImg" src="./images/files.png">
                 </div>
                 <button onclick = "closeEditor()">
                     <img src="./images/close.png">
@@ -77,8 +103,8 @@
                     }
                 </p>
         </div>
-        
     </div>
+    <div id="info"></div>
 
 <script>
     //variables
@@ -93,6 +119,7 @@ const content = document.querySelector('#content')
 const windows = document.querySelector('.windows')
 const body = document.querySelector('body')
 const popup = document.querySelector('.closed-popup')
+const profilePopup = document.querySelector('.closed-create-profile')
 
 
 const addButton = document.querySelector('.addButton')
@@ -105,18 +132,30 @@ removeButton.addEventListener('click', () => {
     removePickFile()
 });
 
-const selectedToRemove = document.querySelector('.removing-window')
-    selectedToRemove.addEventListener('click', () => {
-        pickWindow()
-    })
+const profileButton = document.querySelector('.profileButton')
+profileButton.addEventListener('click', () => {
+    openProfile()
+})
 
-function pickWindow(){
-    if(picked === false){
-            selectedToRemove.classList.add('.windowChosenToRemove')
-            selectedToRemove.classList.remove('removing.window')
-        }
+function openProfile(){
+    profilePopup.classList.add('open-create-profile')
 }
 
+function closeProfile(){
+    profilePopup.classList.add('closed-create-profile')
+    profilePopup.classList.remove('open-create-profile')
+}
+
+function showNothing(){
+    let numb = document.querySelector('.windows').childElementCount;
+    if(numb < 1){
+        const noFile = document.createElement('div')
+        noFile.classList.add('noFile-on')
+        noFile.textContent = 'No documents added yet'
+        windows.appendChild(noFile)
+    }
+}
+showNothing()
     //opens popup editor
 function openEditor(){
     removeText()
@@ -127,23 +166,29 @@ function openEditor(){
     //creates totally new file window and puts in info which user inputed
     // after creating it closes the popup 
 function createFile(){
-    const window = document.createElement('div')
-    window.classList.add('window')
-    const h1 = document.createElement('h1')
-    var titleInput = document.querySelector('#titleInput').value;
-    h1.classList.add('h1')
-    h1.textContent = titleInput
-    const p = document.createElement('p')
-    var contentInput = document.querySelector('.contentInput').value;
-    p.classList.add('p')
-    p.textContent = contentInput
+        const window = document.createElement('div')
+        window.classList.add('window')
+        const h1 = document.createElement('h1')
+        var titleInput = document.querySelector('#titleInput').value;
+        h1.classList.add('h1')
+        if(document.querySelector('#titleInput').value !== ''){
+            h1.textContent = titleInput
+        }
+        else {
+            h1.textContent = 'New File' 
+        }
+        const p = document.createElement('p')
+        var contentInput = document.querySelector('.contentInput').value;
+        p.classList.add('p')
+        p.textContent = contentInput
 
-    popup.classList.remove('open-popup')
-    windows.appendChild(window)
-    window.appendChild(h1)
-    window.appendChild(p)
-    console.log(titleInput)
-    removeText()
+        popup.classList.remove('open-popup')
+        windows.appendChild(window)
+        window.appendChild(h1)
+        window.appendChild(p)
+        console.log(titleInput)
+        removeText()
+    
 }
     //deletes inputed info in popup
 function removeText(){
@@ -158,6 +203,8 @@ function closeEditor(){
 }
     //whole process of removing
 function removePickFile(){
+    let editorOpen = true
+    let numb = document.querySelector('.windows').childElementCount;
     picking()
     const closeDeleting = document.createElement('button')
     closeDeleting.classList.add('closeDeleting')
@@ -165,19 +212,44 @@ function removePickFile(){
     closeDeleting.addEventListener('click', () => {
         closePicking()
         body.removeChild(closeDeleting)
+        let editorOpen = false;
     })
-   
     body.appendChild(closeDeleting)
+    deleteFile()
+}
+
+    //after clicking on file it deletes it
+    //A.K.A removes from windows parenthood
+    //if no files are left it gets rid of the top X button
+function deleteFile(){
+    const windowFiles = windows.querySelectorAll('.removing-window')
+    const closeDEleting = document.querySelector('.closeDeleting')
+    windowFiles.forEach((windowFile) => {
+        windowFile.addEventListener('click', () => {
+            windows.removeChild(windowFile)
+            let numb = document.querySelector('.windows').childElementCount;
+            if(numb < 1){
+                body.removeChild(closeDEleting)
+            }
+        })
+    })
+}
+
+function openFile(){
+    const files = windows.querySelectorAll('.window')
+    files.forEach((file) => {
+        file.addEventListener('click', () => {
+              
+        })
+    })
 }
 
     //after you click on trash button
     //changes classes of windows
 function picking(){
     const windowFiles = windows.querySelectorAll('.window');
-
     windowFiles.forEach((windowFile) => {
         windowFile.classList.add('removing-window')
-        let picked = false
     })
 }
 function closePicking(){
