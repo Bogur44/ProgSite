@@ -8,6 +8,10 @@ body{
     flex-direction: column;
 }
 
+button{
+    cursor: grab;
+}
+
 #logo{
     width: 200px;
     height: 120px;
@@ -76,6 +80,7 @@ p{
 
 #header .buttons :hover{
     transform: scale(1.1);
+    cursor: grab;
 }
 
 #content{
@@ -94,7 +99,7 @@ p{
 .windows{
     display: flex;
     flex-wrap: wrap;
-    justify-content: start;
+    justify-content: center;
     gap: 15px;
     position: relative;
     min-height: 256px;
@@ -105,6 +110,8 @@ p{
     border-radius: 20px;
     box-shadow: inset 2px 2px 5px grey;
 }
+
+
 .window{
     height: 250px;
     width: 180px;
@@ -114,6 +121,7 @@ p{
     text-align: center;
     box-shadow: 2px 2px 5px black;
     overflow-y: hidden;
+    cursor: move;
 }
 .window h1{
     padding: 0;
@@ -137,6 +145,7 @@ p{
     animation: hovering 2s infinite cubic-bezier(0.5, 2, 1, 1.5 );
     box-shadow: 2px 2px 4px black;
     border: 2px solid black;
+    cursor:grab;
 }
 .window:hover > h1{
     border-bottom: 3px solid black;
@@ -145,12 +154,19 @@ p{
 }
 
 .noFile-on{
-    width: 120px;
-    height: 80px;
+    width: 200px;
+    height: 120px;
     align-self: center;
+    translate: 0% -30%;
     margin-top: 80px;
-    z-index: 3;
-    border: 2px solid grey;
+    z-index: 2;
+    border: 2px dashed grey;
+    border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 32px;
     position: absolute;
 }
 
@@ -169,13 +185,104 @@ p{
 #info{
     width: 30%;
     height: 600px;
-    border: 2px solid;
+    box-shadow: inset 2px 2px 5px grey, 2px 2px 5px grey;
+    background-color:white;
+    
     position: absolute;
     margin-left: 65%;
     margin-top: -50px;
     padding-top: 0;
-    border-radius: 20px;
+    border-radius: 40px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+    transition-duration: 0.3s;
 }
+.info-header h1{
+    margin-top: 10px;
+    width: auto;
+    height: 50px;
+    border-radius: 20px;
+    padding: 10px;
+    background-color: white;
+    box-shadow: 0 8px 6px -6px black;
+
+    font-size: 40px;
+    font-weight: 800;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: ;
+}
+#info .close{
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    place-self: end;
+    margin: 15px;
+
+    background-image: url(./images/close.png);
+    background-color: transparent;
+    background-size: contain;
+    border: none;
+
+    transition: transform .2s ease-in-out;
+}
+#info .close:hover{
+    transform: scale(1.1);
+}
+.info-content{
+    height: 80%;
+    width: 90%;
+    border-radius: 20px;
+    margin-top: -20px;
+    background-color: #fff;
+
+}
+.info-buttons{
+    display: flex;
+    width: 110%;
+    min-width: 250px;
+    translate:0px 30px;
+
+    justify-content: space-between;
+}
+.infob{
+    width: 5rem;
+    aspect-ratio: 1;
+    padding: 0 10px;
+    font-size: 22px;
+    font-weight: 550;
+    border: 2px solid black;
+    border-radius: 100px;
+    background-color: white;
+
+    transition: transform .2s ease, translate .3s ease;
+}
+.infob:hover{
+    transform: scale(1.1);
+}
+.info-buttons img{
+    width: 30px;
+}
+.delete-button:hover{
+    background: red;
+    translate: 20% -20%;
+}
+.edit-button:hover{
+    background: #FFBF00;
+    translate: 0 -20%;
+}
+.party-button:hover{
+    background: lightgrey;
+    translate: -20% -20%;
+}
+
 
 .closed-popup{
     background-color: #fff;

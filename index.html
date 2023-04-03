@@ -87,11 +87,11 @@
             </div>
         </div>
         <div class="windows">
-            <div class="window">
-                <h1>Git</h1>
+            <div id="moveable1" class="window">
+                <h1 id="moveable1header">Git</h1>
             </div>
-            <div class="window">
-                <h1>Java</h1>
+            <div id="moveable2" class="window">
+                <h1 id="moveable1header">Java</h1>
                 <p>const blob = document.getElementById('blob')
 
                     document.body.onpointermove = event => {
@@ -104,15 +104,37 @@
                 </p>
         </div>
     </div>
-    <div id="info"></div>
+    <div id="info">
+        <button onclick="closingFile()" class="close">X</button>
+        <div class="info-header">
+            <h1 class="info-header-content">headline</h1>
+            
+        </div>
+        <div class="info-content">
+            <p class="info-textcontent">vsdgvady</p>
+        </div>
+        <div class="info-buttons">
+            <button class="infob delete-button">
+                <img src="./images/trash.png">
+            </button>
+            <button class="infob edit-button">
+                <img src="./images/pen.png">
+            </button>
+            <button class="infob party-button">
+                <img src="./images/plus.png">
+            </button>
+        </div>
+    </div>
 
 <script>
     //variables
 let editorOpen = false;
 
-var titleInput =''
-var contentInput = ''
+let active = false;
+
 let picked = false
+let numb = document.querySelector('.windows').childElementCount
+var titleInput = document.querySelector('#titleInput').value;
     //constants
 
 const content = document.querySelector('#content')
@@ -120,7 +142,14 @@ const windows = document.querySelector('.windows')
 const body = document.querySelector('body')
 const popup = document.querySelector('.closed-popup')
 const profilePopup = document.querySelector('.closed-create-profile')
+const infoBoard = document.querySelector('#info')
 
+const files = document.querySelectorAll('.window')
+files.forEach((file) => {
+    file.addEventListener('click', opening)
+})
+
+content.removeChild(info)
 
 const addButton = document.querySelector('.addButton')
 addButton.addEventListener('click', () => {
@@ -146,30 +175,25 @@ function closeProfile(){
     profilePopup.classList.remove('open-create-profile')
 }
 
-function showNothing(){
-    let numb = document.querySelector('.windows').childElementCount;
-    if(numb < 1){
-        const noFile = document.createElement('div')
-        noFile.classList.add('noFile-on')
-        noFile.textContent = 'No documents added yet'
-        windows.appendChild(noFile)
-    }
-}
-showNothing()
+
     //opens popup editor
 function openEditor(){
+    if(active === false){
     removeText()
     popup.classList.add('open-popup')
-    editorOpen = true;
+    active = true;
+    }
 }
-
     //creates totally new file window and puts in info which user inputed
     // after creating it closes the popup 
+    // increases number of files by 1
 function createFile(){
+        
         const window = document.createElement('div')
+        window.addEventListener('click', opening)
         window.classList.add('window')
         const h1 = document.createElement('h1')
-        var titleInput = document.querySelector('#titleInput').value;
+        
         h1.classList.add('h1')
         if(document.querySelector('#titleInput').value !== ''){
             h1.textContent = titleInput
@@ -182,13 +206,18 @@ function createFile(){
         p.classList.add('p')
         p.textContent = contentInput
 
+        if(numb === 0){
+            windows.removeChild(noFile)
+        }
+        numb += 1 
+        console.log(numb)
         popup.classList.remove('open-popup')
         windows.appendChild(window)
         window.appendChild(h1)
         window.appendChild(p)
-        console.log(titleInput)
         removeText()
-    
+        active = false;
+        
 }
     //deletes inputed info in popup
 function removeText(){
@@ -199,12 +228,11 @@ function removeText(){
 function closeEditor(){
     removeText()
     popup.classList.remove('open-popup')
-    let editorOpen = false
+    active = false
 }
     //whole process of removing
 function removePickFile(){
-    let editorOpen = true
-    let numb = document.querySelector('.windows').childElementCount;
+    if(active === false){
     picking()
     const closeDeleting = document.createElement('button')
     closeDeleting.classList.add('closeDeleting')
@@ -212,37 +240,61 @@ function removePickFile(){
     closeDeleting.addEventListener('click', () => {
         closePicking()
         body.removeChild(closeDeleting)
-        let editorOpen = false;
     })
+
     body.appendChild(closeDeleting)
     deleteFile()
+}
 }
 
     //after clicking on file it deletes it
     //A.K.A removes from windows parenthood
     //if no files are left it gets rid of the top X button
 function deleteFile(){
+    active = true;
     const windowFiles = windows.querySelectorAll('.removing-window')
     const closeDEleting = document.querySelector('.closeDeleting')
     windowFiles.forEach((windowFile) => {
-        windowFile.addEventListener('click', () => {
-            windows.removeChild(windowFile)
-            let numb = document.querySelector('.windows').childElementCount;
-            if(numb < 1){
-                body.removeChild(closeDEleting)
-            }
-        })
-    })
+        windowFile.addEventListener('click', removing)})
+        if(numb === 0){
+            body.removeChild(closeDEleting)
+        
+    }
 }
 
-function openFile(){
-    const files = windows.querySelectorAll('.window')
-    files.forEach((file) => {
-        file.addEventListener('click', () => {
-              
-        })
+    //function to remove files on click
+    // decreases number of files by 1
+function removing(){
+    const closeDEleting = document.querySelector('.closeDeleting')
+    const window = document.querySelector('.window')
+    windows.removeChild(window)
+    numb -= 1
+    console.log(numb)
+        if(numb === 0){
+            body.removeChild(closeDEleting)
+            createNoFile()
+            active = false;
+        
+    }
+}
+
+    //removes the event listener of removing function
+    //solves the problem of deleting files after the deleting process is over
+function stopDeletingFiles(){
+    const windowFiles = windows.querySelectorAll('.removing-window')
+    windowFiles.forEach((windowFile) => {
+        windowFile.removeEventListener('click', removing )
     })
 }
+    //creates the no document added yet pic after there are no files anymore
+    const noFile = document.createElement('div')
+    
+function createNoFile(){
+    noFile.classList.add('noFile-on')
+    noFile.textContent = 'No documents added yet'
+    windows.appendChild(noFile)
+}
+
 
     //after you click on trash button
     //changes classes of windows
@@ -252,12 +304,29 @@ function picking(){
         windowFile.classList.add('removing-window')
     })
 }
+    //stops the ability to delete files after clicking on them
+    //deletes the red color out of files
 function closePicking(){
-    const windowFiles = windows.querySelectorAll('.window');
-
+    active = false;
+    stopDeletingFiles()
+    const windowFiles = windows.querySelectorAll('.removing-window');
     windowFiles.forEach((windowFile) => {
         windowFile.classList.remove('removing-window')
     })
+}
+
+
+
+const titleInfo = document.querySelector('.info-header-content')
+    //if anything isnt opened it creates infoBoard
+function opening(){
+    if(active === false){
+        content.appendChild(infoBoard)
+    }
+}
+
+function closingFile(){
+    content.removeChild(infoBoard)
 }
 
 </script>
